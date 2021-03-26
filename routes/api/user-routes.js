@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
         //key is from Model 
         //value is from req.body
         username: req.body.username,
-        email: req.body.password,
+        email: req.body.email,
         password: req.body.password
     })
     .then(dbUserData => res.json(dbUserData))

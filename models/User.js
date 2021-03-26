@@ -2,7 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 //create User class/model!
-class User extends Mode {};
+class User extends Model {};
 
 //define table columns and configuration
 User.init(
