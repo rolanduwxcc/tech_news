@@ -13,7 +13,21 @@ router.get('/', (req, res) => {
 });
 
 //CREATE a user
-router.post('/', (req, res) => {});
+router.post('/', (req, res) => {
+    User.create({
+        //key-value pairs
+        //key is from Model 
+        //value is from req.body
+        username: req.body.username,
+        email: req.body.password,
+        password: req.body.password
+    })
+    .then(dbUserData => res.json(dbUserData))
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
 
 
 // Routes that resolve at /api/users/:id
@@ -36,10 +50,41 @@ router.get('/:id', (req, res) => {
 });
 
 //UPDATE one user
-router.put('/:id', (req, res) => {});
+router.put('/:id', (req, res) => {
+    //if req.body has exact key/value pairs to match model, u can use just 'req.body'
+    User.update(req.body, {
+        where: { id: req.params.id }
+    })
+    .then(dbUserData => {
+        if(!dbUserData[0]) {
+            res.status(404).json({ message: 'No user found with this id'} );
+            return;
+        }
+        res.json(dbUserData);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
 
 //DELETE one user
-router.delete('/:id', (req, res) => {});
+router.delete('/:id', (req, res) => {
+    User.destroy({
+        where: {id: req.params.id}
+    })
+    .then(dbUserData => {
+        if(!dbUserData) {
+            res.status(404).json({message: 'No user found with this id'});
+            return;
+        }
+        res.json(dbUserData);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
 
 
 module.exports = router;
